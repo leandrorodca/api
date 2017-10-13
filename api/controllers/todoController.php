@@ -22,6 +22,7 @@ class todoController extends controller {
 
 	}
 
+	//lista todas as tarefas do banco
 	public function listar(){
 		$array = array();
 
@@ -32,42 +33,44 @@ class todoController extends controller {
 		
 	}
 
+	//adciona uma nova tarefa no banco, mediante um título e uma descrição
 	public function add(){
-		if (isset($_POST['titulo'])&& !empty($_POST['titulo'])) {
+
+		$titulo= $this->temValor($_POST['titulo']);
+
+		$descricao = $this->temValor($_POST['descricao']);
 			
-			$titulo = addslashes($_POST['titulo']);
 		
-			if (isset($_POST['descricao'])&& !empty($_POST['descricao'])) {
-				$descricao = addslashes($_POST['descricao']);
-				echo 'Tarefa '. ($this->tarefa->addTarefa($titulo,$descricao) ? " salva com sucesso." : " não adicionada!");
-			}
+		if ($titulo !=null && $descricao != null) {
+				
+			echo 'Tarefa '. ($this->tarefa->addTarefa($titulo,$descricao) ? " salva com sucesso." : " não adicionada!");
+		
 		}
-		
-			
+				
 	}
 
+	//deleta uma tarefa pelo se id
 	public function del(){
 
-		if (isset($_POST['id'])&& !empty($_POST['id'])) {
+		$id = $this->temValor($_POST['id']);
+
+		if ($id!= null) {
 				
-				$id = addslashes($_POST['id']);
-				
-				echo 'Tarefa '.($this->tarefa->delTarefa($id) ?  ' deletada com sucesso' : 'não encontrada!');
+			echo 'Tarefa '.($this->tarefa->delTarefa($id) ?  ' deletada com sucesso' : 'não encontrada!');
 		}
 	}
 
+	// atualiza o status da tarefa
 	public function update(){
 		
-		if (isset($_POST['id'])&& !empty($_POST['id'])) {
+		$id = $this->temValor($_POST['id']);
 		
-		$id = addslashes($_POST['id']);
-	
-			if (isset($_POST['status'])&& !empty($_POST['status'])) {
-				$status = addslashes($_POST['status']);
-				echo 'Tarefa '.($this->tarefa->updateStatus($status, $id) ?  ' alterada com sucesso' : 'não encontrada!');
-			}
+		$status = $this->temValor($_POST['status']);
+		
+		if ($id != null && $status != null) {
+				
+			echo 'Tarefa '.($this->tarefa->updateStatus($status, $id) ?  ' alterada com sucesso' : 'não encontrada!');
 		}
-		
-
 	}
+
 }
